@@ -84,7 +84,3 @@ npm run dev
 - **Radix UI** + custom Tailwind components
 - **TipTap** for the rich-text story editor
 
-## Login credentials
-
-- Email: `admin@storydb.com`
-- Password: `admin123`
