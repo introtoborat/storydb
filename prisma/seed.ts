@@ -52,20 +52,28 @@ async function seedLookups() {
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // Create admin user
-  const hashedPassword = await hashPassword("admin123");
+  // Create admin user from environment variables
+  const adminEmail = process.env.ADMIN_EMAIL || "admin@storydb.com";
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminPassword) {
+    console.error("❌ ADMIN_PASSWORD environment variable is required");
+    process.exit(1);
+  }
+
+  const hashedPassword = await hashPassword(adminPassword);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@storydb.com" },
+    where: { email: adminEmail },
     update: { role: "admin", status: "active", password: hashedPassword },
     create: {
-      email: "admin@storydb.com",
+      email: adminEmail,
       name: "Admin",
       password: hashedPassword,
       role: "admin",
       status: "active",
     },
   });
-  console.log(`✅ Admin user created: ${admin.email} (password: admin123)`);
+  console.log(`✅ Admin user created: ${admin.email}`);
 
   // Create some tags
   const tags = await Promise.all([

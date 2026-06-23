@@ -8,9 +8,17 @@ import { verifyPassword } from "../src/lib/auth";
   const adapter = new PrismaPg({ connectionString: url });
   const prisma = new PrismaClient({ adapter });
 
-  const user = await prisma.user.findUnique({ where: { email: "admin@storydb.com" } });
+  const adminEmail = process.env.ADMIN_EMAIL || "admin@storydb.com";
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminPassword) {
+    console.error("❌ ADMIN_PASSWORD environment variable is required");
+    process.exit(1);
+  }
+
+  const user = await prisma.user.findUnique({ where: { email: adminEmail } });
   if (!user) {
-    console.error("❌ admin@storydb.com not found in DB");
+    console.error(`❌ ${adminEmail} not found in DB`);
     process.exit(1);
   }
   console.log("User row:", { id: user.id, email: user.email, role: user.role, status: user.status, hasPassword: !!user.password });
@@ -20,8 +28,8 @@ import { verifyPassword } from "../src/lib/auth";
     process.exit(1);
   }
 
-  const ok = await verifyPassword("admin123", user.password);
-  console.log(ok ? "✅ Password 'admin123' matches the stored hash" : "❌ Password mismatch");
+  const ok = await verifyPassword(adminPassword, user.password);
+  console.log(ok ? "✅ Password matches the stored hash" : "❌ Password mismatch");
 
   const userCount = await prisma.user.count();
   console.log("Total users in DB:", userCount);

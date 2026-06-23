@@ -57,13 +57,13 @@ Three role tiers (see [src/lib/auth.ts](src/lib/auth.ts) for the full matrix):
 # 1. Install dependencies
 npm install
 
-# 2. Configure your environment (Postgres connection string, JWT secret)
+# 2. Configure your environment (Postgres connection string, JWT secret, admin credentials)
 cp .env .env.local  # then edit
 
 # 3. Apply migrations
 npm run db:migrate
 
-# 4. Seed (creates default admin: admin@storydb.com / admin123)
+# 4. Seed (creates admin user from ADMIN_EMAIL and ADMIN_PASSWORD env vars)
 npm run db:seed
 
 # 5. Run dev server

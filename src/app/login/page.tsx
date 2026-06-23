@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { BookOpen, Loader2, Sparkles, ShieldCheck } from "lucide-react";
+import { BookOpen, Loader2, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -141,13 +141,7 @@ function LoginForm() {
                       className="h-11"
                     />
                   </div>
-                  <div className="rounded-xl bg-primary/5 border border-primary/10 p-3.5 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-1.5 text-primary font-medium mb-1">
-                      <Sparkles className="h-3 w-3" />
-                      Demo credentials
-                    </div>
-                    <code className="font-mono">admin@storydb.com / admin123</code>
-                  </div>
+
                 </CardContent>
                 <CardFooter className="flex flex-col gap-2">
                   <Button type="submit" variant="gradient" size="lg" className="w-full" disabled={loading}>
